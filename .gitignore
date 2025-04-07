@@ -1,0 +1,20 @@
+# Ignore all .ply files (point cloud)
+*.ply
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments (common names)
+venv/
+env/
+.venv/
+.env/
+
+# Optional: ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Optional: ignore VS Code settings
+.vscode/
