@@ -1,0 +1,4 @@
+compas>=2.0.0
+compas-cgal>=0.5.0
+compas-viewer>=0.1.0
+numpy>=1.21.0

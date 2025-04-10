@@ -1,8 +1,9 @@
 from compas.datastructures import Mesh
 from compas_cgal.meshing import mesh_remesh
 from compas_cgal.skeletonization import mesh_skeleton
+import compas.geometry as cg
 
-from slice import mesh_slice_plane
+from src.processing.slice import mesh_slice_plane
 
 def get_mesh_skeleton(mesh):
     v, f = mesh.to_vertices_and_faces(triangulated=True)

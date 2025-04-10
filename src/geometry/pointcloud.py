@@ -10,8 +10,8 @@ from compas_cgal.reconstruction import pointset_outlier_removal
 from compas_cgal.reconstruction import poisson_surface_reconstruction
 from compas_cgal.reconstruction import pointset_normal_estimation
 
-from utilities import save_ply
-import config
+from src.processing.utilities import save_ply
+from src import config
 
 
 def crop_points(points, bbox_min, bbox_max):
@@ -39,7 +39,7 @@ def load_point_clouds_from_folder(folder):
     point_clouds = []
     
     # Read all PLY files from the data directory
-    for ply_file in sorted(folder.glob("pcl_*.ply")):
+    for ply_file in sorted(folder.glob("*.ply")):
         point_cloud = Pointcloud.from_ply(ply_file)
         cropped = crop_points(point_cloud.points, config.BBOX_MIN, config.BBOX_MAX)
         point_clouds.append(cropped)
@@ -57,6 +57,5 @@ def reconstruction_poisson_surface_reconstruction(pointcloud):
     return c, mesh
 
 def save_pointcloud(pointcloud, filename="pointcloud.ply"):
-    data_dir = Path(__file__).parent / "data" / "results"
-    file_path = data_dir / filename
+    file_path = config.RESULTS_DIR / filename
     save_ply(pointcloud, file_path)
