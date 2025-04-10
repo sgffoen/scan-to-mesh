@@ -1,15 +1,26 @@
+"""
+Auto calibration module for scan-to-mesh
+"""
+import sys
+from pathlib import Path
+
+# Add project root to Python path when running this file directly
+if __name__ == "__main__":
+    project_root = Path(__file__).parent.parent.parent
+    sys.path.append(str(project_root))
+
 from compas.geometry import icp_numpy
 from compas.geometry import Pointcloud
-from pointcloud import crop_points
+from src.geometry.pointcloud import crop_points
 from compas_cgal.reconstruction import pointset_reduction
 from compas_cgal.reconstruction import pointset_outlier_removal
 from pathlib import Path
-import config
-from icp import icp_numpy_no_pca
-from utilities import transformation_matrix_to_yaml
-from compas_viewer import Viewer
-from compas_viewer.config import Config
+import src.config as config
+from src.calibration.icp import icp_numpy_no_pca
+from src.processing.utilities import transformation_matrix_to_yaml
 from compas.tolerance import TOL
+import src.processing.visualization as vis
+
 
 
 def load_and_preprocess_pointclouds(data_dir):
@@ -45,17 +56,6 @@ def save_transformation_matrix(transformation_matrix, output_path):
     transformation_matrix_to_yaml(transformation_matrix, output_path)
 
 
-def setup_viewer():
-    """Configure and return a viewer with appropriate settings."""
-    view_config = Config()
-    view_config.camera.target = [0, 0, 0]
-    view_config.camera.position = [100, -1500, 2000]
-    view_config.camera.scale = 100
-    view_config.renderer.gridsize = (20000, 20, 20000, 20)
-    
-    return Viewer(config=view_config)
-
-
 def visualize_results(viewer, source, target, transformed):
     """Visualize the point clouds in the viewer."""
     viewer.scene.add(source)
@@ -79,7 +79,7 @@ def main():
     save_transformation_matrix(transformation_matrix, data_dir / "transformation_matrix.yaml")
     
     # Visualize results
-    viewer = setup_viewer()
+    viewer = vis.create_viewer()
     visualize_results(viewer, source, target, transformed_pcl)
 
 

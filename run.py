@@ -9,6 +9,7 @@ from src.geometry.pointcloud import (
 
 from src.geometry.mesh import remesh, save_mesh, slice_mesh_with_base_plane
 from src import config
+from src.processing.visualization import visualize_combined
 
 import compas.geometry as cg
 from compas.geometry import Pointcloud
@@ -69,24 +70,8 @@ def create_mesh_from_pointcloud():
     return mesh1
 
 def view(pointcloud=True, mesh=True):
-    # Visualize the cropped point clouds
-    view_config = Config()
-    view_config.camera.target = [0, 0, 0]
-    view_config.camera.position = [100, -1500, 2000]
-    view_config.camera.scale = 100
-    view_config.renderer.gridsize = (20000, 20, 20000, 20)
-
-    viewer = Viewer(config=view_config)
-
-    if pointcloud:
-        pointcloud = Pointcloud.from_ply(config.RESULTS_DIR / "pointcloud_origin.ply")
-        viewer.scene.add(pointcloud)
-
-    if mesh:
-        mesh = Mesh.from_obj(config.RESULTS_DIR / "mesh.obj")
-        viewer.scene.add(mesh, show_points=False)
-
-    viewer.show()
+    """Visualize the results using the visualization utilities."""
+    visualize_combined(pointcloud=pointcloud, mesh=mesh)
 
 
 if __name__ == "__main__":
